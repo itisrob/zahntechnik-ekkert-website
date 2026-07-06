@@ -8,7 +8,8 @@ HTML/CSS/JS-Seite — mobile-first, DSGVO-freundlich, ohne Framer-Abhängigkeit 
 ## Seiten (12)
 `index.html` · `ueber.html` · `leistungen.html` · `schoenheitsschiene.html` ·
 `kunststoffschiene.html` · `implantate.html` · `zahnersatz.html` · `valplast.html` ·
-`klammerprothese.html` · `kontakt.html` · `impressum.html` · `datenschutz.html`
+`klammerprothese.html` · `impressum.html` · `datenschutz.html`
+> Hinweis: Die separate `kontakt.html` wurde entfernt (identisch mit dem Terminbereich). „Kontakt"/„Termin vereinbaren" führen jetzt zum Buchungsbereich `#termin`, der auf jeder Inhaltsseite steht.
 
 ## Struktur
 ```
@@ -76,7 +77,7 @@ Bis dahin zeigt das Formular eine freundliche Fallback-Meldung mit E-Mail/Telefo
 /Unser-Service/zahnersatz          → /zahnersatz.html
 /Unser-Service/valplast            → /valplast.html
 /Unser-Service/klammerprothese     → /klammerprothese.html
-/Kontakt                           → /kontakt.html
+/Kontakt                           → /#termin  (Buchungsbereich, kein eigenes File mehr)
 /Impressum                         → /impressum.html
 /Datenschutz                       → /datenschutz.html
 ```

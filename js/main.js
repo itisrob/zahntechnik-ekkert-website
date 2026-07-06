@@ -112,14 +112,21 @@
 
   /* ---- scroll reveal ---- */
   var reveals = d.querySelectorAll(".reveal");
+  var showAll = function () { reveals.forEach(function (el) { el.classList.add("is-in"); }); };
+  var vh = window.innerHeight || 800;
+  /* reveal anything already in view immediately — no flash for above-the-fold content */
+  reveals.forEach(function (el) { if (el.getBoundingClientRect().top < vh * 0.98) el.classList.add("is-in"); });
   if ("IntersectionObserver" in window && reveals.length) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    reveals.forEach(function (el) { io.observe(el); });
+    }, { threshold: 0.06, rootMargin: "0px 0px -30px 0px" });
+    reveals.forEach(function (el) { if (!el.classList.contains("is-in")) io.observe(el); });
+    /* safety net: content is never left hidden even if the observer misfires */
+    setTimeout(showAll, 1500);
+    window.addEventListener("load", function () { setTimeout(showAll, 250); });
   } else {
-    reveals.forEach(function (el) { el.classList.add("is-in"); });
+    showAll();
   }
 })();

@@ -76,8 +76,8 @@ strong{font-weight:700;color:var(--teal-900)}
   font-family:var(--font-body);font-weight:700;font-size:1rem;line-height:1;cursor:pointer;
   padding:.95em 1.6em;border-radius:var(--pill);border:2px solid transparent;transition:.2s ease;white-space:nowrap}
 .btn svg{width:1.05em;height:1.05em}
-.btn--primary{background:var(--cyan);color:var(--teal-900);box-shadow:0 8px 20px rgba(0,202,224,.28)}
-.btn--primary:hover{background:var(--teal-900);color:#fff;transform:translateY(-2px);box-shadow:0 12px 26px rgba(7,62,68,.28)}
+.btn--primary{background:var(--cyan);color:#fff;box-shadow:0 8px 20px rgba(0,202,224,.32)}
+.btn--primary:hover{background:var(--cyan-700);color:#fff;transform:translateY(-2px);box-shadow:0 12px 26px rgba(3,153,171,.34)}
 .btn--ghost{background:transparent;color:var(--teal-900);border-color:var(--teal-100)}
 .btn--ghost:hover{border-color:var(--teal-900);color:var(--teal-900);background:var(--teal-50)}
 .btn--light{background:#fff;color:var(--teal-900)}
@@ -127,8 +127,8 @@ strong{font-weight:700;color:var(--teal-900)}
 .trust__ico{flex:0 0 auto;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;
   background:var(--teal-50);color:var(--cyan-700)}
 .trust__ico svg{width:22px;height:22px}
-.trust__k{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
-.trust__v{font-weight:700;color:var(--teal-900);font-family:var(--font-display)}
+.trust__k{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.trust__v{display:block;margin-top:.15rem;font-weight:700;color:var(--teal-900);font-family:var(--font-display)}
 .trust__v a{color:var(--teal-900)}
 .trust__v a:hover{color:var(--cyan-700)}
 
@@ -294,6 +294,69 @@ strong{font-weight:700;color:var(--teal-900)}
 .skip-link:focus{left:0;color:#fff}
 
 /* ==========================================================================
+   Overrides & new components (Vorlagen-Angleichung)
+   ========================================================================== */
+/* Hero: text + info strip (no big image) */
+.hero{position:relative;overflow:hidden}
+.hero__inner{max-width:780px;padding-block:clamp(48px,8vw,96px) clamp(28px,4vw,44px)}
+.hero__inner .eyebrow{margin-bottom:1rem}
+.hero__inner h1{margin-bottom:.5em}
+.hero__glow{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(58% 55% at 90% 16%,rgba(0,202,224,.20),transparent 60%),radial-gradient(46% 50% at 8% 6%,rgba(0,202,224,.10),transparent 60%)}
+
+/* Service icon cards */
+.icards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:clamp(20px,2.6vw,32px)}
+.icard{display:flex;flex-direction:column;align-items:center;text-align:center;background:#fff;border:1px solid var(--line);
+  border-radius:var(--radius);padding:2.1rem 1.5rem 1.7rem;box-shadow:var(--shadow-sm);transition:.22s ease}
+.icard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--teal-100)}
+.icard__ico{width:66px;height:66px;display:grid;place-items:center;border-radius:18px;background:var(--cyan);color:#fff;
+  margin-bottom:1rem;box-shadow:0 10px 22px rgba(0,202,224,.34)}
+.icard__ico svg{width:34px;height:34px}
+.icard h3{margin:0 0 .35rem}
+.icard p{color:var(--muted);font-size:.97rem;margin:0 0 1.1rem}
+.icard__link{margin-top:auto;display:inline-flex;align-items:center;gap:.4em;font-weight:700;color:var(--cyan-700)}
+.icard__link svg{width:1.15em;height:1.15em}
+.icard:hover .icard__link{color:var(--teal-900)}
+
+/* Benefit text blocks */
+.benefit-list{display:grid;gap:1.35rem;margin-top:1.6rem}
+.bpt h3{margin:0 0 .25rem;font-size:1.12rem}
+.bpt p{margin:0;color:var(--muted);font-size:.98rem}
+
+/* Cyan section (Modernste Geräte) */
+.section--cyan{background:linear-gradient(135deg,var(--cyan),#2fb7cb);color:#fff}
+.section--cyan h1,.section--cyan h2,.section--cyan h3{color:#fff}
+.section--cyan .eyebrow{color:#eafcff}
+.section--cyan .eyebrow::before{background:#fff}
+.section--cyan .lead,.section--cyan .bpt p{color:#effcfe}
+.section--cyan .split__media img{box-shadow:0 24px 60px rgba(4,41,45,.32)}
+
+/* About profile card */
+.profile{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow);max-width:420px;margin-inline:auto}
+.profile img{width:100%;border-radius:calc(var(--radius) - 6px);aspect-ratio:4/5;object-fit:cover}
+.profile__name{text-align:center;padding:1.1rem .5rem .4rem}
+.profile__name strong{display:block;font-family:var(--font-display);font-size:1.3rem;color:var(--teal-900)}
+.profile__name span{color:var(--muted)}
+
+/* Stats cyan */
+.stats.stats--cyan{grid-template-columns:repeat(3,1fr)}
+.stats--cyan .stat__n{color:var(--cyan)}
+
+/* Über gallery */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,20px)}
+.gallery img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-sm);box-shadow:var(--shadow-sm)}
+
+/* Hours icon size fix */
+.ico-sm{display:inline-flex;flex:0 0 auto;width:22px;height:22px;color:var(--cyan-700)}
+.ico-sm svg{width:22px;height:22px}
+
+/* Footer logo (white) + contact */
+.site-footer .brand img{filter:brightness(0) invert(1)}
+.footer-contact{margin-top:1rem;font-size:.95rem;line-height:1.9}
+.footer-contact a{color:#a9cace}
+.footer-contact a:hover{color:var(--cyan)}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 @media (max-width:900px){
@@ -318,6 +381,14 @@ strong{font-weight:700;color:var(--teal-900)}
 @media (max-width:440px){
   .footer-grid{grid-template-columns:1fr}
   .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+
+@media (max-width:640px){
+  .gallery{grid-template-columns:1fr 1fr}
+  .stats.stats--cyan{gap:.5rem}
+  .stats.stats--cyan .stat__n{font-size:1.9rem}
+  .stats.stats--cyan .stat__l{font-size:.72rem;letter-spacing:.04em}
+  .icard{padding:1.8rem 1.3rem 1.5rem}
 }
 
 /* ---------- Mobile nav panel ---------- */
