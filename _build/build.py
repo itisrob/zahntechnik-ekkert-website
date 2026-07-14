@@ -44,6 +44,8 @@ IC = {
     "play": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
     "cal": _svg('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
     "check": _svg('<path d="M20 6 9 17l-5-5"/>', w="2.4"),
+    "star": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5 4.9 1.2 7L12 18l-6.4 3.3L6.9 14 2 9.4l7-.9z"/></svg>',
+    "shield": _svg('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/>'),
 }
 
 # service tile icons (white stroke on cyan tile)
@@ -173,7 +175,7 @@ def head(title, desc, slug, extra_ld=""):
 <meta name="twitter:image" content="{og_img}">
 <link rel="preload" href="assets/fonts/cabinet-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=3">
 {ld}{extra_ld}
 </head>
 <body>
@@ -237,10 +239,10 @@ def booking_block(page_label):
     <div class="contact-grid">
       <div class="reveal">
         <ul class="info-list">
-          <li><span class="trust__ico">{phone}</span><span><span class="trust__k">Telefon</span><br><a href="tel:{ph}">{phd}</a></span></li>
-          <li><span class="trust__ico">{mail}</span><span><span class="trust__k">E-Mail</span><br><a href="mailto:{em}">{em}</a></span></li>
-          <li><span class="trust__ico">{pin}</span><span><span class="trust__k">Adresse</span><br>{street}, {zip} {city}</span></li>
-          <li><span class="trust__ico">{clock}</span><span><span class="trust__k">Öffnungszeiten</span><br>{hours}</span></li>
+          <li><span class="trust__ico">{phone}</span><span class="info-list__txt"><span class="trust__k">Telefon</span><span class="trust__v"><a href="tel:{ph}">{phd}</a></span></span></li>
+          <li><span class="trust__ico">{mail}</span><span class="info-list__txt"><span class="trust__k">E-Mail</span><span class="trust__v"><a href="mailto:{em}">{em}</a></span></span></li>
+          <li><span class="trust__ico">{pin}</span><span class="info-list__txt"><span class="trust__k">Adresse</span><span class="trust__v">{street}, {zip} {city}</span></span></li>
+          <li><span class="trust__ico">{clock}</span><span class="info-list__txt"><span class="trust__k">Öffnungszeiten</span><span class="trust__v">{hours}</span></span></li>
         </ul>
         <div class="map" data-map="{map}"><div class="map__consent" role="button" tabindex="0" aria-label="Google Maps laden"><div><p>Zum Schutz Ihrer Daten wird die Karte erst nach Ihrer Zustimmung von Google Maps geladen.</p><span class="btn btn--ghost">{pin} Karte anzeigen</span></div></div></div>
       </div>
@@ -281,7 +283,7 @@ def footer(termin):
   </div>
 </footer>
 <div class="mobilebar"><a class="btn btn--ghost" href="tel:{ph}">{phone} Anrufen</a><a class="btn btn--primary" href="{termin}">{cal} Termin</a></div>
-<script src="js/main.js" defer></script>
+<script src="js/main.js?v=3" defer></script>
 </body>
 </html>""".format(name=BIZ["name"], legal=BIZ["legal"], svc=svc_links, ph=BIZ["phone_href"], phd=BIZ["phone_display"], em=BIZ["email"], phone=IC["phone"], cal=IC["cal"], termin=termin)
 
@@ -298,20 +300,27 @@ def page_index():
     d = "Ihr Zahntechnik-Labor in Pforzheim: maßgeschneiderter Zahnersatz, Hollywood-Schönheitsschiene, Implantate & mehr. Modernste CAD-Technik, persönliche Beratung – für Ihr strahlendes Lächeln."
     benefits = "".join('<div class="bpt reveal"><h3>{h}</h3><p>{p}</p></div>'.format(h=h, p=p) for h, p in BENEFITS)
     return "".join([
-        head(t, d, "index.html"), header("index.html", "#termin"), '<main id="main">',
+        head(t, d, "index.html"), header("index.html", "kontakt.html"), '<main id="main">',
         # HERO
         """<section class="hero">
   <span class="hero__glow" aria-hidden="true"></span>
   <div class="container">
-    <div class="hero__inner reveal">
-      <span class="eyebrow">Verändern Sie Ihr Leben mit einem Lächeln</span>
-      <h1>Verleihen Sie Ihrem Lächeln neuen Glanz.</h1>
-      <p class="hero__sub">Hochwertige zahntechnische Lösungen, maßgeschneidert für Ihre Bedürfnisse – gefertigt mit Präzision und persönlicher Betreuung in Pforzheim.</p>
-      <div class="hero__cta"><a class="btn btn--primary btn--lg" href="#termin">Lassen Sie sich beraten! {arrow}</a><a class="btn btn--ghost btn--lg" href="leistungen.html">Meine Leistungen</a></div>
+    <div class="hero__grid">
+      <div class="hero__copy reveal">
+        <span class="eyebrow">Verändern Sie Ihr Leben mit einem Lächeln</span>
+        <h1>Verleihen Sie Ihrem Lächeln neuen Glanz.</h1>
+        <p class="hero__sub">Hochwertige zahntechnische Lösungen, maßgeschneidert für Ihre Bedürfnisse – gefertigt mit Präzision und persönlicher Betreuung in Pforzheim.</p>
+        <div class="hero__cta"><a class="btn btn--primary btn--lg" href="kontakt.html">Lassen Sie sich beraten! {arrow}</a><a class="btn btn--ghost btn--lg" href="leistungen.html">Meine Leistungen</a></div>
+      </div>
+      <div class="hero__media reveal">
+        <img src="assets/img/hero.png" alt="Strahlendes Lächeln – hochwertiger Zahnersatz vom Dentallabor Ekkert" width="816" height="1456" fetchpriority="high">
+        <div class="hero-badge hero-badge--tl"><span class="hero-badge__ico">{star}</span><span><strong>100 %</strong><small>Präzision</small></span></div>
+        <div class="hero-badge hero-badge--br"><span class="hero-badge__ico">{shield}</span><span><strong>+20 Jahre</strong><small>Erfahrung</small></span></div>
+      </div>
     </div>
     {strip}
   </div>
-</section>""".format(arrow=IC["arrow"], strip=info_strip()),
+</section>""".format(arrow=IC["arrow"], star=IC["star"], shield=IC["shield"], strip=info_strip()),
         # SERVICES (icons)
         """<section class="section">
   <div class="container">
@@ -363,7 +372,7 @@ def page_index():
     </div>
   </div>
 </section>""".format(arrow=IC["arrow"], owner=BIZ["owner"], role=BIZ["role"]),
-        booking_block("Startseite"), '</main>', footer("#termin"),
+        booking_block("Startseite"), '</main>', footer("kontakt.html"),
     ])
 
 def page_ueber():
@@ -372,12 +381,12 @@ def page_ueber():
     stats = [("+20 J.", "Erfahrung"), ("100 %", "Präzision"), ("+1000", "Lächeln")]
     stat_html = "".join('<div class="reveal"><div class="stat__n">{n}</div><div class="stat__l">{l}</div></div>'.format(n=n, l=l) for n, l in stats)
     return "".join([
-        head(t, d, "ueber.html"), header("ueber.html", "#termin"), '<main id="main">',
+        head(t, d, "ueber.html"), header("ueber.html", "kontakt.html"), '<main id="main">',
         """<section class="page-hero">
   <div class="container">
     <div class="split">
       <div class="reveal"><span class="eyebrow">Über meinen Service</span><h1>Die Expertise, der Sie vertrauen können.</h1></div>
-      <div class="reveal"><p class="lead">Seit über 20 Jahren biete ich Ihnen fachkundige Zahntechnik auf höchstem Niveau. Vertrauen Sie auf meine langjährige Erfahrung und Leidenschaft für detailgenaue, ästhetisch ansprechende Lösungen – gemeinsam erreichen wir das beste Ergebnis für Ihr schönstes Lächeln.</p><a class="btn btn--primary" href="#termin">Kennenlernen {arrow}</a></div>
+      <div class="reveal"><p class="lead">Seit über 20 Jahren biete ich Ihnen fachkundige Zahntechnik auf höchstem Niveau. Vertrauen Sie auf meine langjährige Erfahrung und Leidenschaft für detailgenaue, ästhetisch ansprechende Lösungen – gemeinsam erreichen wir das beste Ergebnis für Ihr schönstes Lächeln.</p><a class="btn btn--primary" href="kontakt.html">Kennenlernen {arrow}</a></div>
     </div>
   </div>
 </section>""".format(arrow=IC["arrow"]),
@@ -415,14 +424,14 @@ def page_ueber():
     <div class="center" style="margin-top:2.4rem"><a class="btn btn--primary btn--lg" href="leistungen.html">Alle Services {arrow}</a></div>
   </div>
 </section>""".format(cards=service_icon_cards(SERVICES[:3]), arrow=IC["arrow"]),
-        booking_block("Über mich"), '</main>', footer("#termin"),
+        booking_block("Über mich"), '</main>', footer("kontakt.html"),
     ])
 
 def page_leistungen():
     t = "Leistungen – Zahnersatz, Schönheitsschiene & Implantate | Dentallabor Ekkert Pforzheim"
     d = "Entdecken Sie meine Leistungen: Hollywood-Schönheitsschiene, Kunststoffschiene, Implantate, Zahnersatz, Valplast und Klammerprothese – hochwertig gefertigt in Pforzheim."
     return "".join([
-        head(t, d, "leistungen.html"), header("leistungen.html", "#termin"), '<main id="main">',
+        head(t, d, "leistungen.html"), header("leistungen.html", "kontakt.html"), '<main id="main">',
         """<section class="page-hero">
   <div class="container narrow center reveal">
     <span class="eyebrow" style="justify-content:center">Arbeiten Sie mit mir</span>
@@ -431,7 +440,7 @@ def page_leistungen():
   </div>
 </section>""",
         """<section class="section" style="padding-top:0"><div class="container">{cards}</div></section>""".format(cards=service_icon_cards(SERVICES)),
-        booking_block("Leistungen"), '</main>', footer("#termin"),
+        booking_block("Leistungen"), '</main>', footer("kontakt.html"),
     ])
 
 def page_service(s):
@@ -447,7 +456,7 @@ def page_service(s):
     others = [x for x in SERVICES if x["slug"] != s["slug"]][:3]
     return "".join([
         head(t, d, s["file"], extra_ld='<script type="application/ld+json">%s</script>' % crumb),
-        header("leistungen.html", "#termin"), '<main id="main">',
+        header("leistungen.html", "kontakt.html"), '<main id="main">',
         """<section class="page-hero">
   <div class="container">
     <nav aria-label="Brotkrümel" class="reveal" style="margin-bottom:1rem"><a href="leistungen.html" style="font-weight:700;font-size:.9rem">← Alle Leistungen</a></nav>
@@ -479,13 +488,28 @@ def page_service(s):
         """<section class="section section--tint">
   <div class="container"><div class="sec-head center reveal"><span class="eyebrow">Weitere Leistungen</span><h2>Das könnte Sie auch interessieren</h2></div>{cards}</div>
 </section>""".format(cards=service_icon_cards(others)),
-        '</main>', footer("#termin"),
+        '</main>', footer("kontakt.html"),
+    ])
+
+def page_kontakt():
+    t = "Termin vereinbaren – Kontakt | Dentallabor Ekkert Pforzheim"
+    d = "Vereinbaren Sie jetzt Ihren Termin im Dentallabor Ekkert in Pforzheim – telefonisch, per E-Mail oder direkt über das Formular. Ich melde mich innerhalb von 24 Stunden."
+    return "".join([
+        head(t, d, "kontakt.html"), header("kontakt.html", "#termin"), '<main id="main">',
+        """<section class="page-hero">
+  <div class="container narrow center reveal">
+    <span class="eyebrow" style="justify-content:center">Kontakt-Info</span>
+    <h1>Kontaktieren Sie mich noch heute</h1>
+    <p class="lead center">Haben Sie Fragen oder möchten Sie einen Termin vereinbaren? Ich stehe Ihnen gerne zur Verfügung, um die beste Lösung für Ihren Zahnersatz zu finden und Ihr Lächeln wieder zum Strahlen zu bringen.</p>
+  </div>
+</section>""",
+        booking_block("Kontakt"), '</main>', footer("#termin"),
     ])
 
 def legal_page(fname, title, desc, h1, body_html):
-    return "".join([head(title, desc, fname), header(fname, "index.html#termin"),
+    return "".join([head(title, desc, fname), header(fname, "kontakt.html"),
         '<main id="main"><section class="section"><div class="container prose">', '<h1>%s</h1>' % h1, body_html,
-        '</div></section></main>', footer("index.html#termin")])
+        '</div></section></main>', footer("kontakt.html")])
 
 def impressum_body():
     return """<p><strong>{name}</strong><br>Firmeninhaber: Herr {owner}<br>{street}<br>{zip} {city}<br>Telefon: <a href="tel:{ph}">{phd}</a><br>E-Mail: <a href="mailto:{em}">{em}</a></p>
@@ -505,7 +529,7 @@ def impressum_body():
 <p>Soweit besondere Bedingungen für einzelne Nutzungen dieser Website von den vorgenannten Paragraphen abweichen, wird an entsprechender Stelle ausdrücklich darauf hingewiesen. In diesem Falle gelten im jeweiligen Einzelfall die besonderen Nutzungsbedingungen.</p>""".format(name=BIZ["name"], owner=BIZ["owner"], street=BIZ["street"], zip=BIZ["zip"], city=BIZ["city"], ph=BIZ["phone_href"], phd=BIZ["phone_display"], em=BIZ["email"])
 
 def build():
-    pages = {"index.html": page_index(), "ueber.html": page_ueber(), "leistungen.html": page_leistungen(),
+    pages = {"index.html": page_index(), "ueber.html": page_ueber(), "leistungen.html": page_leistungen(), "kontakt.html": page_kontakt(),
              "impressum.html": legal_page("impressum.html", "Impressum | Dentallabor Ekkert Pforzheim", "Impressum und rechtliche Angaben zum Dentallabor Ekkert, Zahntechnik Aleksandr Ekkert in Pforzheim.", "Impressum", impressum_body()),
              "datenschutz.html": legal_page("datenschutz.html", "Datenschutzerklärung | Dentallabor Ekkert Pforzheim", "Datenschutzerklärung des Dentallabor Ekkert: So verarbeiten und schützen wir Ihre personenbezogenen Daten.", "Datenschutzerklärung", DATENSCHUTZ_HTML)}
     for s in SERVICES:
@@ -513,10 +537,6 @@ def build():
     for fname, html in pages.items():
         with open(os.path.join(ROOT, fname), "w", encoding="utf-8") as f:
             f.write(html)
-    # remove obsolete kontakt page if present
-    kp = os.path.join(ROOT, "kontakt.html")
-    if os.path.exists(kp):
-        os.remove(kp)
     print("Wrote %d pages:" % len(pages))
     for f in sorted(pages):
         print("  ", f)

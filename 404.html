@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seite nicht gefunden – Dentallabor Ekkert</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<script>
+/* Redirect-Map: alte Framer-URLs -> neue statische Seiten (Domain-Umzug) */
+(function () {
+  var map = {
+    "/über": "/ueber.html",
+    "/uber": "/ueber.html",
+    "/unser-service": "/leistungen.html",
+    "/unser-service/schönheitsschiene": "/schoenheitsschiene.html",
+    "/unser-service/schonheitsschiene": "/schoenheitsschiene.html",
+    "/unser-service/kunststoffprothesen": "/kunststoffschiene.html",
+    "/unser-service/implantate": "/implantate.html",
+    "/unser-service/zahnersatz": "/zahnersatz.html",
+    "/unser-service/valplast": "/valplast.html",
+    "/unser-service/klammerprothese": "/klammerprothese.html",
+    "/kontakt": "/kontakt.html",
+    "/impressum": "/impressum.html",
+    "/datenschutz": "/datenschutz.html"
+  };
+  var p = decodeURIComponent(location.pathname).toLowerCase().replace(/\/+$/, "");
+  if (map[p]) { location.replace(map[p]); }
+})();
+</script>
+</head>
+<body>
+<main id="main">
+  <section class="section">
+    <div class="container narrow center">
+      <span class="eyebrow" style="justify-content:center">404</span>
+      <h1>Diese Seite gibt es nicht (mehr).</h1>
+      <p class="lead center">Kein Problem – hier finden Sie alles Wichtige:</p>
+      <p style="margin-top:1.6rem">
+        <a class="btn btn--primary btn--lg" href="/">Zur Startseite</a>
+        &nbsp;
+        <a class="btn btn--ghost btn--lg" href="/leistungen.html">Meine Leistungen</a>
+      </p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

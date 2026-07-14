@@ -82,7 +82,16 @@ Bis dahin zeigt das Formular eine freundliche Fallback-Meldung mit E-Mail/Telefo
 /Datenschutz                       → /datenschutz.html
 ```
 
-## Deploy (GitHub Pages → später zahntechnik-ekkert.de)
+## Deploy (GitHub Pages → zahntechnik-ekkert.de)
 1. Repo `itisrob/zahntechnik-ekkert-website`, Branch `main` als Pages-Quelle.
 2. Live-Preview: `https://itisrob.github.io/zahntechnik-ekkert-website/`.
-3. Domain-Umzug: `CNAME`-Datei mit `zahntechnik-ekkert.de` anlegen, DNS umstellen, 301-Redirects (oben) setzen, alte Framer-Seite abschalten.
+
+### Go-Live-Plan Domain (Stand 2026-07-14)
+DNS der Domain liegt bei **AWS Route 53** (Nameserver awsdns-*). Aktuell: Apex-A-Records → Framer (35.71.142.77, 52.223.52.2), `www` → CNAME `sites.framer.app`.
+
+Reihenfolge (erst DNS, dann CNAME-Datei — sonst leitet die github.io-Preview auf die noch-Framer-Domain um):
+1. **Vorher:** Web3Forms-Key in `_build/build.py` eintragen + rebuild (Formular muss ab Tag 1 senden).
+2. **Route 53** (Zugang nötig): Apex-A-Records ersetzen durch GitHub-Pages-IPs `185.199.108.153 / 185.199.109.153 / 185.199.110.153 / 185.199.111.153`; `www`-CNAME von `sites.framer.app` auf `itisrob.github.io` ändern.
+3. **Repo:** Datei `CNAME` mit Inhalt `zahntechnik-ekkert.de` committen; in den Repo-Settings → Pages die Custom Domain eintragen; nach Zertifikatsausstellung „Enforce HTTPS" aktivieren.
+4. **Framer:** Domain-Verknüpfung im Framer-Projekt entfernen / Site depublizieren.
+5. **Nachher:** Alte URLs werden durch `404.html`-Redirect-Map aufgefangen; Google Search Console: Property bestätigen + `sitemap.xml` einreichen. Canonicals/OG zeigen bereits auf die Domain.
