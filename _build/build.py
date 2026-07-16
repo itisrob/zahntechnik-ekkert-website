@@ -29,7 +29,7 @@ BIZ = {
 MAP_EMBED = "https://maps.google.com/maps?q=%s,%s&z=15&output=embed" % (BIZ["lat"], BIZ["lng"])
 YT_ID = "PwmMA5fmEe4"
 # Kontaktformular → GrowPotential-Endpoint (Resend + Telegram + Kundenakte). Siehe portal/api/lead.js
-LEAD_ENDPOINT = "https://app.growpotential.de/api/lead"
+LEAD_ENDPOINT = "https://app.growpotential.de/api/submit"
 LEAD_CLIENT = "zahntechnik-ekkert"
 
 def _svg(p, vb="0 0 24 24", w="2"):
