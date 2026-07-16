@@ -69,45 +69,49 @@
     });
   });
 
-  /* ---- Web3Forms contact submit ---- */
-  d.querySelectorAll("form[data-web3form]").forEach(function (form) {
+  /* ---- Kontaktformular → GrowPotential-Endpoint (JSON) ---- */
+  d.querySelectorAll("form[data-lead]").forEach(function (form) {
     var msg = form.querySelector(".form__msg");
     var btn = form.querySelector('[type="submit"]');
     var btnText = btn ? btn.innerHTML : "";
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (msg) { msg.className = "form__msg"; }
-      var key = form.querySelector('[name="access_key"]');
-      // Guard: not yet configured
-      if (!key || /YOUR_|PLACEHOLDER/i.test(key.value)) {
-        showMsg("Das Formular ist noch nicht final verknüpft. Bitte schreiben Sie uns direkt an zahntechnik-ekkert@web.de oder rufen Sie an.", true);
-        return;
-      }
-      if (btn) { btn.disabled = true; btn.innerHTML = "Wird gesendet …"; }
-      fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: new FormData(form)
-      }).then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (data.success) {
-            form.reset();
-            showMsg("Vielen Dank! Ihre Anfrage ist eingegangen – ich melde mich innerhalb von 24 Stunden bei Ihnen.", false);
-          } else {
-            showMsg("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie an zahntechnik-ekkert@web.de.", true);
-          }
-        }).catch(function () {
-          showMsg("Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut oder schreiben Sie an zahntechnik-ekkert@web.de.", true);
-        }).finally(function () {
-          if (btn) { btn.disabled = false; btn.innerHTML = btnText; }
-        });
-    });
     function showMsg(text, isError) {
       if (!msg) { alert(text); return; }
       msg.textContent = text;
       msg.className = "form__msg " + (isError ? "is-err" : "is-ok");
       msg.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+    function val(n) { var el = form.elements[n]; return el ? el.value : ""; }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (msg) { msg.className = "form__msg"; }
+      var honey = form.elements["botcheck"];
+      if (honey && honey.checked) return; // Bot → still verwerfen
+      var endpoint = form.getAttribute("data-endpoint");
+      var payload = {
+        client: form.getAttribute("data-client"),
+        name: val("name"), email: val("email"), telefon: val("telefon"),
+        nachricht: val("nachricht"), seite: val("seite"), botcheck: ""
+      };
+      if (btn) { btn.disabled = true; btn.innerHTML = "Wird gesendet …"; }
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "content-type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (data) { return { ok: r.ok, data: data }; });
+      }).then(function (res) {
+        if (res.ok && res.data && res.data.ok) {
+          form.reset();
+          showMsg("Vielen Dank! Ihre Anfrage ist eingegangen – ich melde mich innerhalb von 24 Stunden bei Ihnen.", false);
+        } else {
+          showMsg("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie an zahntechnik-ekkert@web.de.", true);
+        }
+      }).catch(function () {
+        showMsg("Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut oder schreiben Sie an zahntechnik-ekkert@web.de.", true);
+      }).finally(function () {
+        if (btn) { btn.disabled = false; btn.innerHTML = btnText; }
+      });
+    });
   });
 
   /* ---- scroll reveal ---- */

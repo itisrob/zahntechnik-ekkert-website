@@ -28,7 +28,9 @@ BIZ = {
 }
 MAP_EMBED = "https://maps.google.com/maps?q=%s,%s&z=15&output=embed" % (BIZ["lat"], BIZ["lng"])
 YT_ID = "PwmMA5fmEe4"
-WEB3FORMS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY"   # <-- Robert: web3forms.com Key (zahntechnik-ekkert@web.de) hier eintragen
+# Kontaktformular → GrowPotential-Endpoint (Resend + Telegram + Kundenakte). Siehe portal/api/lead.js
+LEAD_ENDPOINT = "https://app.growpotential.de/api/lead"
+LEAD_CLIENT = "zahntechnik-ekkert"
 
 def _svg(p, vb="0 0 24 24", w="2"):
     return ('<svg viewBox="%s" fill="none" stroke="currentColor" stroke-width="%s" '
@@ -175,7 +177,7 @@ def head(title, desc, slug, extra_ld=""):
 <meta name="twitter:image" content="{og_img}">
 <link rel="preload" href="assets/fonts/cabinet-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/style.css?v=4">
 {ld}{extra_ld}
 </head>
 <body>
@@ -217,20 +219,17 @@ def service_icon_cards(items):
     return '<div class="icards">%s</div>' % "".join(out)
 
 def contact_form(page_label):
-    return """<form class="form" data-web3form>
+    return """<form class="form" data-lead data-endpoint="{endpoint}" data-client="{slug}">
   <div class="form__msg" role="status" aria-live="polite"></div>
-  <input type="hidden" name="access_key" value="{key}">
-  <input type="hidden" name="subject" value="Neue Anfrage über zahntechnik-ekkert.de">
-  <input type="hidden" name="from_name" value="{name}">
-  <input type="hidden" name="Seite" value="{page}">
   <input type="checkbox" name="botcheck" class="skip-link" tabindex="-1" autocomplete="off" aria-hidden="true">
-  <div class="field"><label for="f-name">Ihr Name</label><input id="f-name" type="text" name="Name" placeholder="Vor- und Nachname" required></div>
-  <div class="field"><label for="f-mail">Ihre E-Mail</label><input id="f-mail" type="email" name="E-Mail" placeholder="name@beispiel.de" required></div>
-  <div class="field"><label for="f-tel">Telefonnummer <span class="muted">(optional)</span></label><input id="f-tel" type="tel" name="Telefon" placeholder="Für einen schnellen Rückruf" autocomplete="tel"></div>
-  <div class="field"><label for="f-msg">Wie kann ich Ihnen helfen?</label><textarea id="f-msg" name="Nachricht" placeholder="Ihr Anliegen, gewünschte Leistung oder Wunschtermin …" required></textarea></div>
+  <div class="field"><label for="f-name">Ihr Name</label><input id="f-name" type="text" name="name" placeholder="Vor- und Nachname" required></div>
+  <div class="field"><label for="f-mail">Ihre E-Mail</label><input id="f-mail" type="email" name="email" placeholder="name@beispiel.de" required></div>
+  <div class="field"><label for="f-tel">Telefonnummer <span class="muted">(optional)</span></label><input id="f-tel" type="tel" name="telefon" placeholder="Für einen schnellen Rückruf" autocomplete="tel"></div>
+  <div class="field"><label for="f-msg">Wie kann ich Ihnen helfen?</label><textarea id="f-msg" name="nachricht" placeholder="Ihr Anliegen, gewünschte Leistung oder Wunschtermin …" required></textarea></div>
+  <input type="hidden" name="seite" value="{page}">
   <p class="form__note">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Angaben gemäß <a href="datenschutz.html">Datenschutzerklärung</a> zu.</p>
   <button class="btn btn--primary btn--block btn--lg" type="submit">Anfrage senden {arrow}</button>
-</form>""".format(key=WEB3FORMS_KEY, name=BIZ["name"], page=esc(page_label), arrow=IC["arrow"])
+</form>""".format(endpoint=LEAD_ENDPOINT, slug=LEAD_CLIENT, page=esc(page_label), arrow=IC["arrow"])
 
 def booking_block(page_label):
     return """<section class="section section--tint" id="termin">
@@ -283,7 +282,7 @@ def footer(termin):
   </div>
 </footer>
 <div class="mobilebar"><a class="btn btn--ghost" href="tel:{ph}">{phone} Anrufen</a><a class="btn btn--primary" href="{termin}">{cal} Termin</a></div>
-<script src="js/main.js?v=3" defer></script>
+<script src="js/main.js?v=4" defer></script>
 </body>
 </html>""".format(name=BIZ["name"], legal=BIZ["legal"], svc=svc_links, ph=BIZ["phone_href"], phd=BIZ["phone_display"], em=BIZ["email"], phone=IC["phone"], cal=IC["cal"], termin=termin)
 
