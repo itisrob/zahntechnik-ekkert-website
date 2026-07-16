@@ -41,12 +41,12 @@ Assets neu aufbereiten (nur bei neuen Bildern nötig): `bash _build/prepare_asse
 npx http-server . -p 8793 -c-1      # dann http://localhost:8793
 ```
 
-## ⚠️ EINE Aktion nötig, damit das Kontaktformular live Mails sendet
-Das Formular nutzt **Web3Forms** (kein Server nötig, Zustellung an `zahntechnik-ekkert@web.de`):
-1. Auf **web3forms.com** die E-Mail `zahntechnik-ekkert@web.de` eintragen → Access Key kommt per Mail (dort bestätigen).
-2. In `_build/build.py` die Zeile `WEB3FORMS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY"` durch den echten Key ersetzen.
-3. `python3 _build/build.py` → fertig.
-Bis dahin zeigt das Formular eine freundliche Fallback-Meldung mit E-Mail/Telefon (kein stiller Fehler).
+## Kontaktformular → GrowPotential-Endpoint (Resend)
+Das Formular POSTet an **`app.growpotential.de/api/lead`** (Portal, `portal/api/lead.js`). Der Endpoint sendet über **Resend** zwei Mails (Anfrage an `zahntechnik-ekkert@web.de` mit Reply-To=Interessent · Bestätigung an den Interessenten), pingt Robert per Telegram und schreibt den Lead in die Kundenakte.
+- Konfiguriert im HTML über `data-endpoint` + `data-client="zahntechnik-ekkert"` (in `_build/build.py`: `LEAD_ENDPOINT`, `LEAD_CLIENT`).
+- **Nichts pro Website einzurichten** — neuer Kunde = ein Eintrag in `portal/lib/leadConfig.js`.
+- Voraussetzung serverseitig: `RESEND_API_KEY` (Vercel-Projekt „portal") + verifizierte Domain `growpotential.de`. Doku: `wissensdatenbank/prozesse/kontaktformulare.md`.
+- Fällt der Endpoint aus, zeigt das Formular eine freundliche Fehlermeldung mit E-Mail/Telefon.
 
 ## SEO / Backend (umgesetzt)
 - Eigener **Title** + **Meta-Description** pro Seite (vorher: alle 12 identisch „Dentallabor Ekkert").
@@ -63,7 +63,7 @@ Bis dahin zeigt das Formular eine freundliche Fallback-Meldung mit E-Mail/Telefo
 
 ## Offene Punkte / bitte bestätigen
 - **Namensschreibweise:** Seite/Impressum sagen „**Aleksandr** Ekkert" – du hattest „Alexander Eckert" geschrieben. Aktuell steht überall die Impressums-Variante „Aleksandr Ekkert". Bitte final festlegen (Impressum ist rechtlich relevant).
-- **Datenschutz rechtlich prüfen:** Ich habe Abschnitte für die neuen Dienste ergänzt (**YouTube** youtube-nocookie, **Web3Forms**) und einen Hosting-Platzhalter (z. B. GitHub Pages / DPF). Google-Analytics-Abschnitt: Hinweis, dass aktuell **kein** Analytics aktiv ist. → vor Livegang von dir/Anwalt bestätigen.
+- **Datenschutz rechtlich prüfen:** Abschnitte für die genutzten Dienste (**YouTube** youtube-nocookie, **Formular-Verarbeitung** — jetzt über GrowPotential/Resend statt Web3Forms) + Hosting-Platzhalter (GitHub Pages / DPF). Google-Analytics-Abschnitt: Hinweis, dass aktuell **kein** Analytics aktiv ist. → Datenschutz-Text im Generator noch von „Web3Forms" auf „GrowPotential (Auftragsverarbeiter) + Resend" umstellen; vor Livegang von dir/Anwalt bestätigen.
 - **Tracking (optional):** GA4 / Clarity / Meta-Pixel sind bewusst NICHT eingebaut (bräuchten Consent-Banner). Auf Wunsch nachrüsten (dann Datenschutz ergänzen).
 - **OG-Bild:** aktuell ein gecropptes Foto (1200×630). Optional ein gebrandetes OG-Motiv mit Logo/Claim.
 
