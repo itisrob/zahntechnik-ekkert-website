@@ -5,7 +5,7 @@ Static site generator for Dentallabor Ekkert (zahntechnik-ekkert.de rebuild).
 Rebuilt to faithfully match the original Framer template + client fixes.
 Run:  python3 _build/build.py
 """
-import json, os
+import json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = "https://zahntechnik-ekkert.de"
@@ -177,7 +177,7 @@ def head(title, desc, slug, extra_ld=""):
 <meta name="twitter:image" content="{og_img}">
 <link rel="preload" href="assets/fonts/cabinet-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=5">
 {ld}{extra_ld}
 </head>
 <body>
@@ -282,7 +282,7 @@ def footer(termin):
   </div>
 </footer>
 <div class="mobilebar"><a class="btn btn--ghost" href="tel:{ph}">{phone} Anrufen</a><a class="btn btn--primary" href="{termin}">{cal} Termin</a></div>
-<script src="js/main.js?v=4" defer></script>
+<script src="js/main.js?v=5" defer></script>
 </body>
 </html>""".format(name=BIZ["name"], legal=BIZ["legal"], svc=svc_links, ph=BIZ["phone_href"], phd=BIZ["phone_display"], em=BIZ["email"], phone=IC["phone"], cal=IC["cal"], termin=termin)
 
@@ -527,6 +527,16 @@ def impressum_body():
 <h3>§ 4 Besondere Nutzungsbedingungen</h3>
 <p>Soweit besondere Bedingungen für einzelne Nutzungen dieser Website von den vorgenannten Paragraphen abweichen, wird an entsprechender Stelle ausdrücklich darauf hingewiesen. In diesem Falle gelten im jeweiligen Einzelfall die besonderen Nutzungsbedingungen.</p>""".format(name=BIZ["name"], owner=BIZ["owner"], street=BIZ["street"], zip=BIZ["zip"], city=BIZ["city"], ph=BIZ["phone_href"], phd=BIZ["phone_display"], em=BIZ["email"])
 
+def clean_urls(html):
+    # Saubere URLs ohne .html (Ordner-Struktur). Interne Links + Asset-Pfade root-absolut,
+    # damit sie aus Unterordnern (/ueber/) korrekt aufloesen.
+    html = html.replace('href="index.html"', 'href="/"')
+    html = re.sub(r'href="([a-z0-9-]+)\.html"', r'href="/\1/"', html)          # relative Links → /name/
+    html = re.sub(r'(https://zahntechnik-ekkert\.de/)([a-z0-9-]+)\.html', r'\1\2/', html)  # canonical/OG/JSON-LD
+    html = html.replace('="assets/', '="/assets/').replace('="css/', '="/css/').replace('="js/', '="/js/')
+    return html
+
+
 def build():
     pages = {"index.html": page_index(), "ueber.html": page_ueber(), "leistungen.html": page_leistungen(), "kontakt.html": page_kontakt(),
              "impressum.html": legal_page("impressum.html", "Impressum | Dentallabor Ekkert Pforzheim", "Impressum und rechtliche Angaben zum Dentallabor Ekkert, Zahntechnik Aleksandr Ekkert in Pforzheim.", "Impressum", impressum_body()),
@@ -534,9 +544,19 @@ def build():
     for s in SERVICES:
         pages[s["file"]] = page_service(s)
     for fname, html in pages.items():
-        with open(os.path.join(ROOT, fname), "w", encoding="utf-8") as f:
+        html = clean_urls(html)
+        if fname == "index.html":
+            out = os.path.join(ROOT, "index.html")
+        else:
+            folder = os.path.join(ROOT, fname[:-5])          # "kontakt.html" → "kontakt"
+            os.makedirs(folder, exist_ok=True)
+            out = os.path.join(folder, "index.html")
+            flat = os.path.join(ROOT, fname)                  # veraltete flache Datei entfernen
+            if os.path.exists(flat):
+                os.remove(flat)
+        with open(out, "w", encoding="utf-8") as f:
             f.write(html)
-    print("Wrote %d pages:" % len(pages))
+    print("Wrote %d pages (clean URLs):" % len(pages))
     for f in sorted(pages):
         print("  ", f)
 

@@ -6,24 +6,22 @@
 <title>Seite nicht gefunden – Dentallabor Ekkert</title>
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/style.css?v=5">
 <script>
-/* Redirect-Map: alte Framer-URLs -> neue statische Seiten (Domain-Umzug) */
+/* Redirect-Map: alte Framer-URLs UND alte .html-URLs → neue saubere Ordner-URLs */
 (function () {
   var map = {
-    "/über": "/ueber.html",
-    "/uber": "/ueber.html",
-    "/unser-service": "/leistungen.html",
-    "/unser-service/schönheitsschiene": "/schoenheitsschiene.html",
-    "/unser-service/schonheitsschiene": "/schoenheitsschiene.html",
-    "/unser-service/kunststoffprothesen": "/kunststoffschiene.html",
-    "/unser-service/implantate": "/implantate.html",
-    "/unser-service/zahnersatz": "/zahnersatz.html",
-    "/unser-service/valplast": "/valplast.html",
-    "/unser-service/klammerprothese": "/klammerprothese.html",
-    "/kontakt": "/kontakt.html",
-    "/impressum": "/impressum.html",
-    "/datenschutz": "/datenschutz.html"
+    "/über": "/ueber/", "/uber": "/ueber/", "/ueber.html": "/ueber/",
+    "/unser-service": "/leistungen/", "/leistungen.html": "/leistungen/",
+    "/unser-service/schönheitsschiene": "/schoenheitsschiene/", "/unser-service/schonheitsschiene": "/schoenheitsschiene/", "/schoenheitsschiene.html": "/schoenheitsschiene/",
+    "/unser-service/kunststoffprothesen": "/kunststoffschiene/", "/kunststoffschiene.html": "/kunststoffschiene/",
+    "/unser-service/implantate": "/implantate/", "/implantate.html": "/implantate/",
+    "/unser-service/zahnersatz": "/zahnersatz/", "/zahnersatz.html": "/zahnersatz/",
+    "/unser-service/valplast": "/valplast/", "/valplast.html": "/valplast/",
+    "/unser-service/klammerprothese": "/klammerprothese/", "/klammerprothese.html": "/klammerprothese/",
+    "/kontakt": "/kontakt/", "/kontakt.html": "/kontakt/",
+    "/impressum": "/impressum/", "/impressum.html": "/impressum/",
+    "/datenschutz": "/datenschutz/", "/datenschutz.html": "/datenschutz/"
   };
   var p = decodeURIComponent(location.pathname).toLowerCase().replace(/\/+$/, "");
   if (map[p]) { location.replace(map[p]); }
@@ -40,7 +38,7 @@
       <p style="margin-top:1.6rem">
         <a class="btn btn--primary btn--lg" href="/">Zur Startseite</a>
         &nbsp;
-        <a class="btn btn--ghost btn--lg" href="/leistungen.html">Meine Leistungen</a>
+        <a class="btn btn--ghost btn--lg" href="/leistungen/">Meine Leistungen</a>
       </p>
     </div>
   </section>
