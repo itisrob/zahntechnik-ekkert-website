@@ -177,7 +177,7 @@ def head(title, desc, slug, extra_ld=""):
 <meta name="twitter:image" content="{og_img}">
 <link rel="preload" href="assets/fonts/cabinet-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=5">
+<link rel="stylesheet" href="css/style.css?v=6">
 {ld}{extra_ld}
 </head>
 <body>
@@ -281,8 +281,12 @@ def footer(termin):
     </div>
   </div>
 </footer>
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie-Hinweis">
+  <p class="cookie__txt"><strong>Cookies &amp; Datenschutz.</strong> Diese Website speichert nur technisch notwendige Daten. Externe Inhalte (Google Maps, YouTube) werden erst nach Ihrer Zustimmung geladen. <a href="datenschutz.html">Mehr erfahren</a>.</p>
+  <button class="btn btn--primary" type="button" data-cookie-ok>Verstanden</button>
+</div>
 <div class="mobilebar"><a class="btn btn--ghost" href="tel:{ph}">{phone} Anrufen</a><a class="btn btn--primary" href="{termin}">{cal} Termin</a></div>
-<script src="js/main.js?v=5" defer></script>
+<script src="js/main.js?v=6" defer></script>
 </body>
 </html>""".format(name=BIZ["name"], legal=BIZ["legal"], svc=svc_links, ph=BIZ["phone_href"], phd=BIZ["phone_display"], em=BIZ["email"], phone=IC["phone"], cal=IC["cal"], termin=termin)
 
@@ -312,7 +316,7 @@ def page_index():
         <div class="hero__cta"><a class="btn btn--primary btn--lg" href="kontakt.html">Lassen Sie sich beraten! {arrow}</a><a class="btn btn--ghost btn--lg" href="leistungen.html">Meine Leistungen</a></div>
       </div>
       <div class="hero__media reveal">
-        <img src="assets/img/hero.png" alt="Strahlendes Lächeln – hochwertiger Zahnersatz vom Dentallabor Ekkert" width="816" height="1456" fetchpriority="high">
+        <img src="assets/img/hero.webp" alt="Strahlendes Lächeln – hochwertiger Zahnersatz vom Dentallabor Ekkert" width="720" height="1285" fetchpriority="high">
         <div class="hero-badge hero-badge--tl"><span class="hero-badge__ico">{star}</span><span><strong>100 %</strong><small>Präzision</small></span></div>
         <div class="hero-badge hero-badge--br"><span class="hero-badge__ico">{shield}</span><span><strong>+20 Jahre</strong><small>Erfahrung</small></span></div>
       </div>

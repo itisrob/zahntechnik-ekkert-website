@@ -8,6 +8,19 @@
     el.textContent = new Date().getFullYear();
   });
 
+  /* ---- cookie notice (nur technisch notwendige Speicherung → einfacher Hinweis) ---- */
+  var cookie = d.getElementById("cookie");
+  if (cookie) {
+    var acked = false;
+    try { acked = !!localStorage.getItem("gpCookieOk"); } catch (e) {}
+    if (!acked) cookie.classList.add("is-shown");
+    var okBtn = cookie.querySelector("[data-cookie-ok]");
+    if (okBtn) okBtn.addEventListener("click", function () {
+      try { localStorage.setItem("gpCookieOk", "1"); } catch (e) {}
+      cookie.classList.remove("is-shown");
+    });
+  }
+
   /* ---- header shadow on scroll ---- */
   var header = d.querySelector(".site-header");
   if (header) {
